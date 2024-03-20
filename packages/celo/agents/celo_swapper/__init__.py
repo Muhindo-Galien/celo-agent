@@ -17,25 +17,8 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the shared state for the abci skill of CeloSwapperAbciApp."""
-
-from packages.valory.skills.abstract_round_abci.models import BaseParams
-from packages.valory.skills.abstract_round_abci.models import (
-    BenchmarkTool as BaseBenchmarkTool,
-)
-from packages.valory.skills.abstract_round_abci.models import Requests as BaseRequests
-from packages.valory.skills.abstract_round_abci.models import (
-    SharedState as BaseSharedState,
-)
-from packages.celo.skills.celo_swapper.rounds import CeloSwapperAbciApp
+"""Package for celo/celo_swapper agent."""
+from pathlib import Path
 
 
-class SharedState(BaseSharedState):
-    """Keep the current shared state of the skill."""
-
-    abci_app_cls = CeloSwapperAbciApp
-
-
-Params = BaseParams
-Requests = BaseRequests
-BenchmarkTool = BaseBenchmarkTool
+PACKAGE_DIR = Path(__file__).parent

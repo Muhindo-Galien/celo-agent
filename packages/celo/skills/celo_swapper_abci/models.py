@@ -17,10 +17,25 @@
 #
 # ------------------------------------------------------------------------------
 
-"""Test the dialogues.py module of the CeloSwapper."""
+"""This module contains the shared state for the abci skill of CeloSwapperAbciApp."""
 
-import packages.celo.skills.celo_swapper.dialogues  # noqa
+from packages.celo.skills.celo_swapper_abci.rounds import CeloSwapperAbciApp
+from packages.valory.skills.abstract_round_abci.models import BaseParams
+from packages.valory.skills.abstract_round_abci.models import (
+    BenchmarkTool as BaseBenchmarkTool,
+)
+from packages.valory.skills.abstract_round_abci.models import Requests as BaseRequests
+from packages.valory.skills.abstract_round_abci.models import (
+    SharedState as BaseSharedState,
+)
 
 
-def test_import() -> None:
-    """Test that the 'dialogues.py' of the CeloSwapper can be imported."""
+class SharedState(BaseSharedState):
+    """Keep the current shared state of the skill."""
+
+    abci_app_cls = CeloSwapperAbciApp
+
+
+Params = BaseParams
+Requests = BaseRequests
+BenchmarkTool = BaseBenchmarkTool

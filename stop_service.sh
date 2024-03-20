@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
+#!/bin/bash
+
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2024 Valory AG
+#   Copyright 2024 Valory
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -17,11 +18,4 @@
 #
 # ------------------------------------------------------------------------------
 
-"""Test the handlers.py module of the CeloSwapper."""
-
-import packages.celo.skills.celo_swapper.handlers  # noqa
-
-
-def test_import() -> None:
-    """Test that the 'handlers.py' of the CeloSwapper can be imported."""
-
+poetry run autonomy deploy stop --build-dir celo_swapper/abci_build; cd ..

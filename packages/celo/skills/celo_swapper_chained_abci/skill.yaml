@@ -1,40 +1,36 @@
-name: celo_swapper
+name: celo_swapper_chained_abci
 author: celo
 version: 0.1.0
 type: skill
-description: The scaffold skill is a scaffold for your own skill implementation.
+description: The chained abci for the celo_swapper skill.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeidl4uvvvbtltj5y7kyqdgak4qtqocm4mugxcr4wqd5ok22lsgipau
-  behaviours.py: bafybeibiheenae527dnyywb6rfuoif5lrl262x6zvyzzlrls6tcp2l34im
-  dialogues.py: bafybeih3amhbmmqemcznqfskjxecv2uumvbkq637p7kishs52pxcod5pou
-  fsm_specification.yaml: bafybeidouohgsdoitno4bxmd4zb5cnr45w3swd56lalfkveg55i3oogjra
-  handlers.py: bafybeifdib522kpljoxhzr2a5a44dxswxp46faejfgvv2reevb3dveyo5i
-  models.py: bafybeic6kzzwy5tt342ymn4hwt3ktpoynlrtzsevpsk25cakgn6b43gchi
-  payloads.py: bafybeigtboh6sxncqk657xehxebrni2dgdxvwzc24rxzrfdjtsipwfc7lu
-  rounds.py: bafybeibx4eepwamzirkjm33nvgl4jzmlnsdhd72hvnozueysxfft4rfpue
-  tests/__init__.py: bafybeifigp64li3j3yidpan5arc27etm3jytadjsckjaidrem57hst73ry
-  tests/test_behaviours.py: bafybeig5vvjmz4rd7nm34x3hbdxtcqipkyfd3meewge4ui54s7qj6vf4n4
-  tests/test_dialogues.py: bafybeif52csysabuy6jplphx6ocefyforjdd35lk7c7iukd2jeypl6mlpm
-  tests/test_handlers.py: bafybeieff57b6wmdejk4exp6f2l3wcp7axn5kba7dl4hpgspsnwjpocfrm
-  tests/test_models.py: bafybeidy67suigpsi6775qxylu43ljkxmsedvcm576rxiiuznvvsw7lrju
-  tests/test_payloads.py: bafybeifvri6si5wreatkq3htictmyvp443wpa4g3tpgloi7k4xtndlesxm
-  tests/test_rounds.py: bafybeifgytsfk52ysowqeelbifibtj7vlw57lor2psdh5ogkd7rv6vkyhi
+  __init__.py: bafybeignlcsitiyh7szah2t3jbme7d5b7rv4unegw3mpnepdmi4ul7h4bq
+  behaviours.py: bafybeibv3ovkgkgmyibl6t7pi45o2luwtonp2eyzza2e25m4zbpt3iyny4
+  composition.py: bafybeig4wndlwj3ibsvxwrfpl3ihkpettgkndzvp6hrmkqotu4gsczir4m
+  dialogues.py: bafybeiakqfqcpg7yrxt4bsyernhy5p77tci4qhmgqqjqi3ttx7zk6sklca
+  fsm_specification.yaml: bafybeibfh25zomjjacmlllrfdjfofptdcrlproar267oexhz3jcx2z3a7y
+  handlers.py: bafybeicj2wcb2yiudlzn36d6wzu2hfw3bupswvvhparvms7syhajfu2rk4
+  models.py: bafybeicbrtbdbw7gy6xoex7s4agiy3ky56qgz3uodtwq4uwxxlthh4fkiy
 fingerprint_ignore_patterns: []
 connections: []
 contracts: []
 protocols: []
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeic2emnylfmdtidobgdsxa4tgdelreeimtglqzrmic6cumhpsbfzhe
+- valory/registration_abci:0.1.0:bafybeibzduasg5pahk2d2glc36wlopg54ybwcdmjqbzozt2lmkp4reqsdu
+- valory/reset_pause_abci:0.1.0:bafybeib3geaw3o35aigmb4dhplxrjlsef7hbdwrozu4akiunlgyiegshj4
+- valory/termination_abci:0.1.0:bafybeifnfuy3svz5oz6kwglu35q6jn7ai3riqplyypskb7za5ejyvjmfza
+- celo/celo_swapper_abci:0.1.0:bafybeia23hd7uw4czwzm3kdipzgqliurzi22askvc24qv3r746ht5yoscu
 behaviours:
   main:
     args: {}
-    class_name: CeloSwapperRoundBehaviour
+    class_name: CeloSwapperChainedConsensusBehaviour
 handlers:
   abci:
     args: {}
-    class_name: ABCIHandler
+    class_name: ABCIRoundHandler
   contract_api:
     args: {}
     class_name: ContractApiHandler
@@ -64,22 +60,22 @@ models:
   contract_api_dialogues:
     args: {}
     class_name: ContractApiDialogues
-  http_dialogues:
-    args: {}
-    class_name: HttpDialogues
   ipfs_dialogues:
     args: {}
     class_name: IpfsDialogues
   ledger_api_dialogues:
     args: {}
     class_name: LedgerApiDialogues
+  http_dialogues:
+    args: {}
+    class_name: HttpDialogues
   params:
     args:
       cleanup_history_depth: 1
       cleanup_history_depth_current: null
       drand_public_key: 868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31
-      finalize_timeout: 60.0
       genesis_config:
+        genesis_time: '2022-09-26T00:00:00.000000000Z'
         chain_id: chain-c4daS1
         consensus_params:
           block:
@@ -87,25 +83,26 @@ models:
             max_gas: '-1'
             time_iota_ms: '1000'
           evidence:
-            max_age_duration: '172800000000000'
             max_age_num_blocks: '100000'
+            max_age_duration: '172800000000000'
             max_bytes: '1048576'
           validator:
             pub_key_types:
             - ed25519
           version: {}
-        genesis_time: '2022-05-20T16:00:21.735122717Z'
         voting_power: '10'
-      history_check_timeout: 1205
-      ipfs_domain_name: null
-      keeper_allowed_retries: 3
       keeper_timeout: 30.0
       max_attempts: 10
       max_healthcheck: 120
+      multisend_address: '0x0000000000000000000000000000000000000000'
+      termination_sleep: 900
+      termination_from_block: 0
+      init_fallback_gas: 0
+      keeper_allowed_retries: 3
+      reset_pause_duration: 10
       on_chain_service_id: null
       request_retry_delay: 1.0
       request_timeout: 10.0
-      reset_pause_duration: 10
       reset_tendermint_after: 2
       retry_attempts: 400
       retry_timeout: 3
@@ -113,10 +110,9 @@ models:
       service_id: celo_swapper
       service_registry_address: null
       setup:
-        all_participants:
-        - '0x0000000000000000000000000000000000000000'
-        consensus_threshold: null
+        all_participants: []
         safe_contract_address: '0x0000000000000000000000000000000000000000'
+        consensus_threshold: null
       share_tm_config_on_startup: false
       sleep_time: 1
       tendermint_check_sleep_delay: 3
@@ -124,9 +120,29 @@ models:
       tendermint_max_retries: 5
       tendermint_p2p_url: localhost:26656
       tendermint_url: http://localhost:26657
-      tx_timeout: 10.0
+      use_termination: false
       validate_timeout: 1205
+      finalize_timeout: 60.0
+      history_check_timeout: 1205
+      use_slashing: false
+      slash_cooldown_hours: 3
+      slash_threshold_amount: 10000000000000000
+      light_slash_unit_amount: 5000000000000000
+      serious_slash_unit_amount: 8000000000000000
+      multisend_batch_size: 50
+      tx_timeout: 10.0
     class_name: Params
+  randomness_api:
+    args:
+      api_id: cloudflare
+      headers: {}
+      method: GET
+      parameters: {}
+      response_key: null
+      response_type: dict
+      retries: 5
+      url: https://drand.cloudflare.com/public/latest
+    class_name: RandomnessApi
   requests:
     args: {}
     class_name: Requests
@@ -141,4 +157,3 @@ models:
     class_name: TendermintDialogues
 dependencies: {}
 is_abstract: false
-customs: []
